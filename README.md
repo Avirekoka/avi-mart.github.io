@@ -13,3 +13,6 @@
 ### Inside cart, user can increase / decrease the items quantity.
 ### Items can be completely remove from the cart on clicking remove button
 ### Implemented pagination and search functionality
+
+## Access 
+### https://avi-mart.herokuapp.com/
