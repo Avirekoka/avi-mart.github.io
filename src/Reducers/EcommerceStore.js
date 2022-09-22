@@ -1,25 +1,20 @@
 import { GET_DATA, SEARCH, PAGE_DATA } from "../ActionTypes/EcommerceActionTypes";
 import {itemsPerPage} from '../Utility/utilityFunction'
 
-const state = {
-  products: [],
-  totalProducts : 0
-}
-const ecommerce = (initialProductsState = state, actions) => {
+
+const ecommerce = (state = {products : []}, actions) => {
     switch (actions.type) {
       case GET_DATA:
       
-        state.products = actions.payload;
-        state.totalProducts = actions.payload.length;
-        localStorage.setItem("all_products", JSON.stringify(state));
+        localStorage.setItem("all_products", JSON.stringify({...state, products: actions.payload, totalProducts: actions.payload.length}));
 
-      return state;
+      return {...state, products: actions.payload, totalProducts: actions.payload.length};
       
       case PAGE_DATA:
         let localStorageAllProductsForPageData = JSON.parse(localStorage.getItem("all_products"));
-        state.products = localStorageAllProductsForPageData.products.slice(actions.payload.lowerInd,actions.payload.higherInd);
+        let tempData = localStorageAllProductsForPageData.products.slice(actions.payload.lowerInd,actions.payload.higherInd);
         state.totalProducts = localStorageAllProductsForPageData.totalProducts;
-      return state;
+      return {...state, totalProducts: localStorageAllProductsForPageData.totalProducts, products : tempData};
       
       case SEARCH:
 
@@ -31,12 +26,10 @@ const ecommerce = (initialProductsState = state, actions) => {
             return product.title.toLowerCase().includes(actions.payload.txt);
           });
           
-          state.products = filteredProducts
-          state.totalProducts = localStorageAllProducts.totalProducts
-        return state;
+        return {...state, products: filteredProducts, totalProducts: localStorageAllProducts.totalProducts};
 
       default:
-        return state.products;
+        return {...state};
     }
   };
 export default ecommerce;

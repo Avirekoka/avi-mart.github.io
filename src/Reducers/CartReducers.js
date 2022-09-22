@@ -6,19 +6,14 @@ const initialProductsState = {
   totalQty: 0
 }
 
-export const cart = (state = initialProductsState, actions) => {
+export const cart = (state = {cartItem: [], totalAmt: 0, totalQty: 0, qty: 0}, actions) => {
     switch (actions.type) {
       case ADD_TO_CART:
-        
-        actions.payload.qty = 1;
-        state.cartItem.push({...actions.payload});
-        state.totalAmt +=actions.payload.price;
-        state.totalQty = state.cartItem.length;
 
+        console.log(actions.payload)
         if(localStorage.getItem("cart_data")){
 
           let localstorageForAddToCart = JSON.parse(localStorage.getItem("cart_data"));
-
           localstorageForAddToCart.totalQty += 1;
           localstorageForAddToCart.totalAmt += actions.payload.price;
           
@@ -32,10 +27,10 @@ export const cart = (state = initialProductsState, actions) => {
           
           localStorage.setItem("cart_data", JSON.stringify(localstorageForAddToCart));
         }else{
-          localStorage.setItem("cart_data", JSON.stringify(state));
+          localStorage.setItem("cart_data", JSON.stringify({...state, cartItem: [...state.cartItem, actions.payload], totalAmt: state.totalAmt + actions.payload.price, totalQty: state.cartItem.length}));
         }
 
-        return state;
+        return {...state, cartItem: [...state.cartItem, actions.payload], totalAmt: state.totalAmt + actions.payload.price, totalQty: state.cartItem.length};
 
       case INCREAMENT_QTY:
         let getLocalStorageForIncreament = JSON.parse(localStorage.getItem("cart_data"));

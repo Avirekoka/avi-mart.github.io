@@ -12,6 +12,7 @@ export const getEcommerceData = () => async (dispatch) => {
 
 export const searchResult = (searchValue) => {
   try {
+    console.log(searchValue)
     return({ type: SEARCH, payload: searchValue });
   } catch (error) {
     console.log(error)

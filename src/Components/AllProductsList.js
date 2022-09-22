@@ -52,15 +52,16 @@ function AllProductList() {
     const upInd = itemsPerPage * currentPage;
     
     setActivePage(currentPage);
-    setSearchText("");
 
     dispatch(handlePageData(lowInd, upInd))
   };
 
   const handleSearch = (e) => {
-    searchText.currPage = activePage;
-    searchText.txt = e.target.value;
-    setSearchText(searchResult);
+    setSearchText(prevState => ({
+      ...prevState,
+      currPage: activePage,
+      txt: e.target.value
+    }));
     dispatch(searchResult(searchText));
   }
   

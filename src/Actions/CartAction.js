@@ -5,6 +5,7 @@ export const addToCart = (itemId) => async (dispatch) => {
     try {
       const {data}  = await api.getSingleProduct(itemId);
 
+      data.qty = 1
       dispatch({ type: ADD_TO_CART, payload: data });
 
     } catch (error) {
